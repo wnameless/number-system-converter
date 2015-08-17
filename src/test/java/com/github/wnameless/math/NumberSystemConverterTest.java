@@ -29,8 +29,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.wnameless.math.NumberSystem;
-import com.github.wnameless.math.NumberSystemConverter;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -132,13 +130,14 @@ public class NumberSystemConverterTest {
 
   @Test
   public void testToString() {
-    assertEquals("A digit system convertor from Base1" + base1 + " to "
+    assertEquals("A number system converter from Base1" + base1 + " to "
         + "Base2" + base2, converter.toString());
   }
 
   @Test
   public void testNPEs() throws Exception {
-    new NullPointerTester().testAllPublicConstructors(NumberSystemConverter.class);
+    new NullPointerTester()
+        .testAllPublicConstructors(NumberSystemConverter.class);
     new NullPointerTester()
         .ignore(NumberSystemConverter.class.getMethod("equals", Object.class))
         .testAllPublicInstanceMethods(converter);
