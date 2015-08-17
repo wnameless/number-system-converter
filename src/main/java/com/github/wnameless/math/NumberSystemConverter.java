@@ -35,9 +35,9 @@ import net.sf.rubycollect4j.RubyArray;
 
 /**
  * 
- * {@link NumberSystemConverter} is a number system converter which converts any
- * number from arbitrary number system 1 to arbitrary number system 2. Ex: OCT
- * to HEX. <br>
+ * {@link NumberSystemConverter} converts any number from arbitrary number
+ * system 1 to arbitrary number system 2.<br>
+ * Ex: OCT to HEX.<br>
  * <br>
  * Each digit of either base can be self-defined freely.
  *
@@ -51,10 +51,10 @@ public final class NumberSystemConverter {
    * Creates a number system converter.
    * 
    * @param base1
-   *          an List of each digit character in base 1, the 0-based order of
+   *          a List of each digit character in base 1, the 0-based order of
    *          each digit is corresponding to its decimal value
    * @param base2
-   *          an List of each digit character in base 2, the 0-based order of
+   *          a List of each digit character in base 2, the 0-based order of
    *          each digit is corresponding to its decimal value
    */
   public NumberSystemConverter(List<Character> base1, List<Character> base2) {

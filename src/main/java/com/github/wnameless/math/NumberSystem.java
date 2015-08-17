@@ -26,37 +26,37 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * 
- * {@link NumberSystem} provides all coding characters in common used number
+ * {@link NumberSystem} provides all base digits in commonly used number
  * systems.
  * 
  */
 public final class NumberSystem {
 
   /**
-   * Binary digit system.
+   * Binary number system.
    */
   public static final List<Character> BIN = ImmutableList.of('0', '1');
 
   /**
-   * Octal digit system.
+   * Octal number system.
    */
   public static final List<Character> OCT =
       ImmutableList.of('0', '1', '2', '3', '4', '5', '6', '7');
 
   /**
-   * Decimal digit system.
+   * Decimal number system.
    */
   public static final List<Character> DEC =
       ImmutableList.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
   /**
-   * Hexical digit system.
+   * Hexical number system.
    */
   public static final List<Character> HEX = ImmutableList.of('0', '1', '2', '3',
       '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
   /**
-   * 36-based digit system.
+   * 36-based number system.
    */
   public static final List<Character> BASE_36 =
       ImmutableList.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
