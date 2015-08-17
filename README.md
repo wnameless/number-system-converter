@@ -9,3 +9,12 @@ NumberSystemConverter c10To5 =
 System.out.println(c10To5.toBase2("100"));
 // Output: 400
 ```
+
+#Maven Repo
+```xml
+<dependency>
+	<groupId>com.github.wnameless.math</groupId>
+	<artifactId>number-system-converter</artifactId>
+	<version>0.1.0</version>
+</dependency>
+```
