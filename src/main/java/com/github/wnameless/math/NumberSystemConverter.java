@@ -163,7 +163,6 @@ public final class NumberSystemConverter {
     if (!(o instanceof NumberSystemConverter)) return false;
 
     NumberSystemConverter other = (NumberSystemConverter) o;
-
     return Objects.equal(base1, other.base1)
         && Objects.equal(base2, other.base2);
   }
