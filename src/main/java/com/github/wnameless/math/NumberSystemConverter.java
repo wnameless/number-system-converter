@@ -22,16 +22,17 @@ package com.github.wnameless.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static net.sf.rubycollect4j.RubyCollections.newRubyArray;
-import static net.sf.rubycollect4j.RubyCollections.ra;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.primitives.Chars;
-
-import net.sf.rubycollect4j.RubyArray;
 
 /**
  * 
@@ -44,8 +45,8 @@ import net.sf.rubycollect4j.RubyArray;
  */
 public final class NumberSystemConverter {
 
-  private final RubyArray<Character> base1;
-  private final RubyArray<Character> base2;
+  private final List<Character> base1;
+  private final List<Character> base2;
 
   /**
    * Creates a number system converter.
@@ -66,26 +67,27 @@ public final class NumberSystemConverter {
     checkArgument(!base1.contains(null) && !base2.contains(null),
         "All bases must NOT include null.");
 
-    this.base1 = RubyArray.copyOf(base1);
-    this.base2 = RubyArray.copyOf(base2);
+    Set<Character> set1 = newLinkedHashSet(base1);
+    Set<Character> set2 = newLinkedHashSet(base2);
 
-    checkArgument(//
-        this.base1.uniqǃ() == null && this.base2.uniqǃ() == null,
+    checkArgument(base1.size() == set1.size() && base2.size() == set2.size(),
         "All digits of a base must be unique.");
-    checkArgument(//
-        this.base1.intersection(ra(' ', '-')).isEmpty()
-            && this.base2.intersection(ra(' ', '-')).isEmpty(),
+
+    List<Character> invalidChars = ImmutableList.of(' ', '-');
+    checkArgument(
+        !Iterables.removeAll(set1, invalidChars)
+            && !Iterables.removeAll(set2, invalidChars),
         "All digits of a base must NOT include whitespace ' ' or minus sign '-'.");
 
-    this.base1.freeze();
-    this.base2.freeze();
+    this.base1 = ImmutableList.copyOf(base1);
+    this.base2 = ImmutableList.copyOf(base2);
   }
 
   private void checkNoInvalidDigit(String base1Digits) {
-    List<Character> inputChars = Chars.asList(base1Digits.toCharArray());
-    checkArgument(//
-        newRubyArray(inputChars).minus(base1).size() == 0,
-        "Input contains invalid digit.");
+    List<Character> inputChars =
+        newArrayList(Chars.asList(base1Digits.toCharArray()));
+    Iterables.removeAll(inputChars, base1);
+    checkArgument(inputChars.size() == 0, "Input contains invalid digit.");
   }
 
   /**
