@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.wnameless.math</groupId>
 	<artifactId>number-system-converter</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2-SNAPSHOT</version>
 
 	<name>number-system-converter</name>
 	<description>An Java utility library of number systems(math)</description>
@@ -21,7 +21,7 @@
 		<connection>scm:git:git@github.com:wnameless/number-system-converter.git</connection>
 		<developerConnection>scm:git:git@github.com:wnameless/number-system-converter.git</developerConnection>
 		<url>git@github.com:wnameless/number-system-converter.git</url>
-		<tag>number-system-converter-0.1.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
