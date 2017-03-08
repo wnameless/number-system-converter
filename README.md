@@ -15,6 +15,6 @@ System.out.println(c10To5.toBase2("100"));
 <dependency>
 	<groupId>com.github.wnameless.math</groupId>
 	<artifactId>number-system-converter</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 </dependency>
 ```
