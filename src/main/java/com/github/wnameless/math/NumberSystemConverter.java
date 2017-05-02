@@ -20,6 +20,7 @@
  */
 package com.github.wnameless.math;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayList;
@@ -47,6 +48,7 @@ public final class NumberSystemConverter {
 
   private final List<Character> base1;
   private final List<Character> base2;
+  private NumberSystemConverter reversedConverter;
 
   /**
    * Creates a number system converter.
@@ -114,7 +116,7 @@ public final class NumberSystemConverter {
       exponent++;
     }
 
-    return isNegtive ? decimal.multiply(new BigDecimal(-1)) : decimal;
+    return isNegtive ? decimal.negate() : decimal;
   }
 
   /**
@@ -149,6 +151,35 @@ public final class NumberSystemConverter {
     if (isNegtive) outputNumberStr.insert(0, '-');
 
     return outputNumberStr.toString();
+  }
+
+  /**
+   * Returns the input base.
+   * 
+   * @return base1
+   */
+  public List<Character> getBase1() {
+    return base1;
+  }
+
+  /**
+   * Returns the output base.
+   * 
+   * @return base2
+   */
+  public List<Character> getBase2() {
+    return base2;
+  }
+
+  /**
+   * Returns a {@link NumberSystemConverter} which converts numbers from base2
+   * to base1.
+   * 
+   * @return a reversed {@link NumberSystemConverter}
+   */
+  public NumberSystemConverter getReversedConverter() {
+    return firstNonNull(reversedConverter,
+        reversedConverter = new NumberSystemConverter(base2, base1));
   }
 
   @Override
