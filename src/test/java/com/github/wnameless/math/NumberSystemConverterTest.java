@@ -155,4 +155,20 @@ public class NumberSystemConverterTest {
         c36To16.toBase2("HEYIZX48OCXMNEVBYWHNGVOS"));
   }
 
+  @Test
+  public void testGetBase1() {
+    assertEquals(NumberSystem.HEX, converter.getBase1());
+  }
+
+  @Test
+  public void testGetBase2() {
+    assertEquals(NumberSystem.OCT, converter.getBase2());
+  }
+
+  @Test
+  public void testGetReversedConverter() {
+    assertEquals(converter.getReversedConverter(),
+        new NumberSystemConverter(NumberSystem.OCT, NumberSystem.HEX));
+  }
+
 }
