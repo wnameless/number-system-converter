@@ -100,9 +100,16 @@ public class NumberSystemConverterTest {
   }
 
   @Test
-  public void testToBase2() {
+  public void testToRadix2() {
     assertEquals("144", converter.toRadix2("64"));
     assertEquals("-144", converter.toRadix2("-   64"));
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test
+  public void testToBase2() {
+    assertEquals("144", converter.toBase2("64"));
+    assertEquals("-144", converter.toBase2("-   64"));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -156,12 +163,12 @@ public class NumberSystemConverterTest {
   }
 
   @Test
-  public void testGetBase1() {
+  public void testGetRadix1() {
     assertEquals(NumberSystem.HEX, converter.getRadix1());
   }
 
   @Test
-  public void testGetBase2() {
+  public void testGetRadix2() {
     assertEquals(NumberSystem.OCT, converter.getRadix2());
   }
 
