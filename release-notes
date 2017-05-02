@@ -5,4 +5,6 @@ Version 0.1.1
 * Remove RubyCollect4J dependency
 
 Version 0.1.2
-+ Add #getBase1 #getBase2 #getReversedConverter
++ Add #getRadix1 #getRadix2 #getReversedConverter
++ Add #toRadix2
+* Deprecate #toBase2

@@ -41,77 +41,77 @@ import com.google.common.primitives.Chars;
  * system 1 to arbitrary number system 2.<br>
  * Ex: OCT to HEX.<br>
  * <br>
- * Each digit of either base can be self-defined freely.
+ * Each digit of either radix can be self-defined freely.
  *
  */
 public final class NumberSystemConverter {
 
-  private final List<Character> base1;
-  private final List<Character> base2;
+  private final List<Character> radix1;
+  private final List<Character> radix2;
   private NumberSystemConverter reversedConverter;
 
   /**
    * Creates a number system converter.
    * 
-   * @param base1
-   *          a List of each digit character in base 1, the 0-based order of
+   * @param radix1
+   *          a List of each digit character in radix 1, the 0-based order of
    *          each digit is corresponding to its decimal value
-   * @param base2
-   *          a List of each digit character in base 2, the 0-based order of
+   * @param radix2
+   *          a List of each digit character in radix 2, the 0-based order of
    *          each digit is corresponding to its decimal value
    */
-  public NumberSystemConverter(List<Character> base1, List<Character> base2) {
-    checkNotNull(base1);
-    checkNotNull(base2);
+  public NumberSystemConverter(List<Character> radix1, List<Character> radix2) {
+    checkNotNull(radix1);
+    checkNotNull(radix2);
 
-    checkArgument(base1.size() >= 2 && base2.size() >= 2,
-        "All bases must include more than 2 digits.");
-    checkArgument(!base1.contains(null) && !base2.contains(null),
-        "All bases must NOT include null.");
+    checkArgument(radix1.size() >= 2 && radix2.size() >= 2,
+        "All radice must include more than 2 digits.");
+    checkArgument(!radix1.contains(null) && !radix2.contains(null),
+        "All radice must NOT include null.");
 
-    Set<Character> set1 = newLinkedHashSet(base1);
-    Set<Character> set2 = newLinkedHashSet(base2);
+    Set<Character> set1 = newLinkedHashSet(radix1);
+    Set<Character> set2 = newLinkedHashSet(radix2);
 
-    checkArgument(base1.size() == set1.size() && base2.size() == set2.size(),
-        "All digits of a base must be unique.");
+    checkArgument(radix1.size() == set1.size() && radix2.size() == set2.size(),
+        "All digits of a radix must be unique.");
 
     List<Character> invalidChars = ImmutableList.of(' ', '-');
     checkArgument(
         !Iterables.removeAll(set1, invalidChars)
             && !Iterables.removeAll(set2, invalidChars),
-        "All digits of a base must NOT include whitespace ' ' or minus sign '-'.");
+        "All digits of a radix must NOT include whitespace ' ' or minus sign '-'.");
 
-    this.base1 = ImmutableList.copyOf(base1);
-    this.base2 = ImmutableList.copyOf(base2);
+    this.radix1 = ImmutableList.copyOf(radix1);
+    this.radix2 = ImmutableList.copyOf(radix2);
   }
 
-  private void checkNoInvalidDigit(String base1Digits) {
+  private void checkNoInvalidDigit(String radix1Digits) {
     List<Character> inputChars =
-        newArrayList(Chars.asList(base1Digits.toCharArray()));
-    Iterables.removeAll(inputChars, base1);
+        newArrayList(Chars.asList(radix1Digits.toCharArray()));
+    Iterables.removeAll(inputChars, radix1);
     checkArgument(inputChars.size() == 0, "Input contains invalid digit.");
   }
 
   /**
-   * Returns a decimal value of input base 1 number.
+   * Returns a decimal value of input radix 1 number.
    * 
-   * @param base1Digits
-   *          any base 1 number
+   * @param radix1Digits
+   *          any radix 1 number
    * @return a decimal
    */
-  public BigDecimal toDecimal(String base1Digits) {
-    checkNotNull(base1Digits);
+  public BigDecimal toDecimal(String radix1Digits) {
+    checkNotNull(radix1Digits);
 
-    String input = base1Digits.replaceFirst("^- *", "");
-    boolean isNegtive = input.length() < base1Digits.length();
+    String input = radix1Digits.replaceFirst("^- *", "");
+    boolean isNegtive = input.length() < radix1Digits.length();
 
     checkNoInvalidDigit(input);
 
     BigDecimal decimal = new BigDecimal(0);
-    BigDecimal base = new BigDecimal(base1.size());
+    BigDecimal base = new BigDecimal(radix1.size());
     int exponent = 0;
     for (int i = input.length() - 1; i >= 0; i--) {
-      BigDecimal pos = new BigDecimal(base1.indexOf(input.charAt(i)));
+      BigDecimal pos = new BigDecimal(radix1.indexOf(input.charAt(i)));
       decimal = decimal.add(pos.multiply(base.pow(exponent)));
       exponent++;
     }
@@ -120,33 +120,46 @@ public final class NumberSystemConverter {
   }
 
   /**
-   * Returns a base 2 number of input base 1 number.
+   * Returns a radix 2 number of input radix 1 number.
    * 
-   * @param base1Digits
-   *          any base 1 number
-   * @return a base 2 number
+   * @param radix1Digits
+   *          any radix 1 number
+   * @return a radix 2 number
+   * @deprecated please use {@link #toRadix2(String)} instead
    */
-  public String toBase2(String base1Digits) {
-    checkNotNull(base1Digits);
+  @Deprecated
+  public String toBase2(String radix1Digits) {
+    return toRadix2(radix1Digits);
+  }
 
-    String input = base1Digits.replaceFirst("^- *", "");
-    boolean isNegtive = input.length() < base1Digits.length();
+  /**
+   * Returns a radix 2 number of input radix 1 number.
+   * 
+   * @param radix1Digits
+   *          any radix 1 number
+   * @return a radix 2 number
+   */
+  public String toRadix2(String radix1Digits) {
+    checkNotNull(radix1Digits);
+
+    String input = radix1Digits.replaceFirst("^- *", "");
+    boolean isNegtive = input.length() < radix1Digits.length();
 
     checkNoInvalidDigit(input);
 
     StringBuilder outputNumberStr = new StringBuilder();
     BigDecimal number = toDecimal(input);
 
-    BigDecimal base = new BigDecimal(base2.size());
+    BigDecimal base = new BigDecimal(radix2.size());
     while (number.compareTo(base) >= 0) {
       BigDecimal[] qAndR = number.divideAndRemainder(base);
       BigDecimal quotient = qAndR[0];
       BigDecimal remainder = qAndR[1];
 
-      outputNumberStr.insert(0, base2.get(remainder.intValue()));
+      outputNumberStr.insert(0, radix2.get(remainder.intValue()));
       number = quotient;
     }
-    outputNumberStr.insert(0, base2.get(number.intValue()));
+    outputNumberStr.insert(0, radix2.get(number.intValue()));
 
     if (isNegtive) outputNumberStr.insert(0, '-');
 
@@ -154,37 +167,37 @@ public final class NumberSystemConverter {
   }
 
   /**
-   * Returns the input base.
+   * Returns the input radix.
    * 
-   * @return base1
+   * @return radix1
    */
-  public List<Character> getBase1() {
-    return base1;
+  public List<Character> getRadix1() {
+    return radix1;
   }
 
   /**
-   * Returns the output base.
+   * Returns the output radix.
    * 
-   * @return base2
+   * @return radix2
    */
-  public List<Character> getBase2() {
-    return base2;
+  public List<Character> getRadix2() {
+    return radix2;
   }
 
   /**
-   * Returns a {@link NumberSystemConverter} which converts numbers from base2
-   * to base1.
+   * Returns a {@link NumberSystemConverter} which converts numbers from radix2
+   * to radix1.
    * 
    * @return a reversed {@link NumberSystemConverter}
    */
   public NumberSystemConverter getReversedConverter() {
     return firstNonNull(reversedConverter,
-        reversedConverter = new NumberSystemConverter(base2, base1));
+        reversedConverter = new NumberSystemConverter(radix2, radix1));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(base1, base2);
+    return Objects.hashCode(radix1, radix2);
   }
 
   @Override
@@ -194,14 +207,14 @@ public final class NumberSystemConverter {
     if (!(o instanceof NumberSystemConverter)) return false;
 
     NumberSystemConverter other = (NumberSystemConverter) o;
-    return Objects.equal(base1, other.base1)
-        && Objects.equal(base2, other.base2);
+    return Objects.equal(radix1, other.radix1)
+        && Objects.equal(radix2, other.radix2);
   }
 
   @Override
   public String toString() {
-    return "A number system converter from Base1" + base1 + " to " + "Base2"
-        + base2;
+    return "A number system converter from Base1" + radix1 + " to " + "Base2"
+        + radix2;
   }
 
 }

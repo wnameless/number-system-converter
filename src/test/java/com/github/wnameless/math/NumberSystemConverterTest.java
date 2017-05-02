@@ -101,13 +101,13 @@ public class NumberSystemConverterTest {
 
   @Test
   public void testToBase2() {
-    assertEquals("144", converter.toBase2("64"));
-    assertEquals("-144", converter.toBase2("-   64"));
+    assertEquals("144", converter.toRadix2("64"));
+    assertEquals("-144", converter.toRadix2("-   64"));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testToBase2WithInvalidDigit() {
-    converter.toBase2("64$");
+    converter.toRadix2("64$");
   }
 
   @Test
@@ -117,7 +117,7 @@ public class NumberSystemConverterTest {
     converter = new NumberSystemConverter(base1, base2);
     base1.remove(0);
     base2.remove(2);
-    assertEquals("144", converter.toBase2("64"));
+    assertEquals("144", converter.toRadix2("64"));
   }
 
   @Test
@@ -150,19 +150,19 @@ public class NumberSystemConverterTest {
     NumberSystemConverter c36To16 =
         new NumberSystemConverter(NumberSystem.BASE_36, NumberSystem.HEX);
     assertEquals("HEYIZX48OCXMNEVBYWHNGVOS",
-        c16To36.toBase2("082bdebfb715b55ae18cee4558cbdf6c".toUpperCase()));
+        c16To36.toRadix2("082bdebfb715b55ae18cee4558cbdf6c".toUpperCase()));
     assertEquals("82bdebfb715b55ae18cee4558cbdf6c".toUpperCase(),
-        c36To16.toBase2("HEYIZX48OCXMNEVBYWHNGVOS"));
+        c36To16.toRadix2("HEYIZX48OCXMNEVBYWHNGVOS"));
   }
 
   @Test
   public void testGetBase1() {
-    assertEquals(NumberSystem.HEX, converter.getBase1());
+    assertEquals(NumberSystem.HEX, converter.getRadix1());
   }
 
   @Test
   public void testGetBase2() {
-    assertEquals(NumberSystem.OCT, converter.getBase2());
+    assertEquals(NumberSystem.OCT, converter.getRadix2());
   }
 
   @Test
