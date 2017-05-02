@@ -3,3 +3,6 @@ Version 0.1.0
 
 Version 0.1.1
 * Remove RubyCollect4J dependency
+
+Version 0.1.2
++ Add #getBase1 #getBase2 #getReversedConverter
